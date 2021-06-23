@@ -1,0 +1,46 @@
+import 'dart:io';
+import 'dart:async';
+
+void main()
+{
+    int NC = 1;
+    loop(NC);
+    
+
+}
+
+void loop(int NC){
+    while(1 == 1){
+        
+        var entrada = stdin.readLineSync();
+        var par = entrada.split(' ');
+        int n = int.parse(par[0]);
+        int k = int.parse(par[1]);
+        var soldados = new List<int>.generate(n, (i) => i+1); 
+        var reord = new List<int>.generate(soldados.length, (i) => 0);
+        
+        kill(soldados, k, NC);
+        NC++;
+    }
+}
+
+void kill(List<int> soldados, int k, int NC){
+    
+    if (k > soldados.length) k = k - soldados.length; 
+    soldados.removeAt(k-1);
+    
+    if (soldados.length > 1) {
+        soldados = reorder(soldados, k);
+        kill(soldados, k, NC);}
+    else stdout.writeln('Case $NC: ${soldados[0]}');
+}
+
+List<int> reorder(List<int> soldados, k){
+    var reord = new List<int>.generate(soldados.length, (i) => 0); 
+    for (int i = 0; i < reord.length; i++){
+        if (k > reord.length) k = 1;
+        reord[i] = soldados[k-1];
+        k++;
+    }
+    return reord;
+}
